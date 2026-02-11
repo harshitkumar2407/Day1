@@ -16,5 +16,8 @@ app.get('/hi',(req,res) => {
 app.get('/hii',(req,res) => {
     res.send("nikal lode")
 })
-
+app.get('/love',(req,res) => {
+    res.send("Love is a shit")
+})
+// hello
 app.listen(3000) // server start krna
