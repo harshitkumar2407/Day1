@@ -1,8 +1,19 @@
-// server ko start karne ke liye server.js file banti hai
+// server ko start kerna 
+// database se connect
+require("dotenv").config()
+const app = require("./src/app")
+const mongoose = require("mongoose")
+const connectToDb = require("./src/config/database")
 
-const app = require('./src/app');
 
-app.listen(3000 ,()=>{
-    console.log("Server is running on the port 3000 ");
+connectToDb();
+
+
+app.get("/", (req, res) => {
+  res.send("Working");
+});
+
+app.listen(3000, ()=>{
+    console.log("Server is running port 3000");
     
 })
