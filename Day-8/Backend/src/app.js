@@ -1,17 +1,27 @@
 const express = require("express")
+const cors = require('cors')
+
 const app = express();
-app.use(express.json())
+app.use(express.json());
+app.use(cors());
 const notesModel = require("./models/notes.model")
 
-app.post("/api/notes",async(req,res)=>{
-    const {discription} = req.body
+app.post("/api/notes", async (req, res) => {
+  try {
+    const { discription } = req.body
 
-    const note = await notesModel.create({
-        discription
-    })
+    const note = await notesModel.create({ discription })
+
     res.status(201).json({
-        message:"new node is created ",note
+      message: "New note is created",
+      note
     })
+  } catch (error) {
+    res.status(500).json({
+      message: "Something went wrong",
+      error: error.message
+    })
+  }
 })
 
 app.get("/api/notes", async(req,res)=>{
