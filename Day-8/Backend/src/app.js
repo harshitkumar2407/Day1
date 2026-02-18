@@ -1,16 +1,19 @@
 const express = require("express")
 const cors = require('cors')
+const path = require('path')
+const notesModel = require("./models/notes.model")
 
 const app = express();
-app.use(express.json());
 app.use(cors());
-const notesModel = require("./models/notes.model")
+app.use(express.json());
+app.use(express.static("./public"))
+
 
 app.post("/api/notes", async (req, res) => {
   try {
-    const { discription } = req.body
+    const {title, discription } = req.body
 
-    const note = await notesModel.create({ discription })
+    const note = await notesModel.create({title , discription })
 
     res.status(201).json({
       message: "New note is created",
@@ -38,9 +41,6 @@ app.delete("/api/notes/:id", async(req,res)=>{
         message:"Note is deleted"
     })
 }) 
-// update the note
-// /api/notes/:id
-// req.body => {discription}
 app.patch("/api/notes/:id", async(req,res)=>{
     const {id} = req.params
     const {discription} = req.body
@@ -50,6 +50,12 @@ app.patch("/api/notes/:id", async(req,res)=>{
     })
 })
 
+
+
+app.use('*name',(req,res)=>{
+  res.send("this is wild card")
+  res.sendFile(path.join(__dirname,"../public/index.html"))
+})
 
 
 
