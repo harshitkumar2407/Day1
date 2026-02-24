@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": "aa1da158-d84f-4b20-ae93-b62f8b9d200b",
+      "email": "student@example.com",
+      "password": {
+        "salt": "MxsdxIdwmQYlSCqjDtMRdA==",
+        "hash": "bQMGrBzkPRd6S0xKj4MwQ6vjjtTsiuILpm6e4tfj6/TT51+wNp0fuiQSL1WcAAhFjv7df5XGXJEbIQXaJkIfVw==",
+        "algo": "scrypt",
+        "keyLen": 64
+      },
+      "createdAt": "2026-02-19T08:57:48.253Z"
+    }
+  ],
+  "studentsByUserId": {
+    "aa1da158-d84f-4b20-ae93-b62f8b9d200b": {
+      "fullName": "Demo Student",
+      "studentId": "S-1001",
+      "major": "Computer Science",
+      "year": "2",
+      "phone": "555-010",
+      "updatedAt": "2026-02-19T09:00:12.936Z"
+    }
+  }
+}

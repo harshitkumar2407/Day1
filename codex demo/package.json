@@ -1,0 +1,14 @@
+{
+  "name": "codex-demo-student-portal",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Simple student login + student details portal (no external dependencies).",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=16"
+  }
+}
+
