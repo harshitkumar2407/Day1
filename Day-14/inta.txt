@@ -1,0 +1,15 @@
+==> Authentication
+    => register
+    => login
+    => logout
+    => [OTP based registration]
+
+==> post 
+    => create
+    => can se the feed
+    => like posts (collection types)
+    => save post
+
+==> users
+    => followers
+    => following
