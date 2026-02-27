@@ -1,15 +1,16 @@
 ==> Authentication
     => register
     => login
-    => logout
+    => logout (token blacklisting)
     => [OTP based registration]
 
-==> post 
+==> POST
     => create
-    => can se the feed
+    => can see the feed
     => like posts (collection types)
-    => save post
+    => save posts
 
 ==> users
     => followers
     => following
+    
