@@ -5,11 +5,14 @@ const jwt = require("jsonwebtoken")
 
 
 async function registerController(req, res)  {
+    // take input data form the the body
     const { email, username, password, bio, profileImage} = req.body
 
+    // check user is already exist by this user.name or email
     const isUserAlreadyExists = await userModel.findOne({
         $or:[{ username }, { email }]
     })
+    //  if yes we can't allow to create the user with the same name Notification
     if (isUserAlreadyExists) {
         const field = isUserAlreadyExists.email === email ? "Email" : "Username";
     
@@ -19,16 +22,17 @@ async function registerController(req, res)  {
     }
     // const hash = crypto.createHash("sha256").update(password).digest("hex")
     const hash = await bcrypt.hash(password,10)
-
+    // send to data base if every thisg is correct
     const user = new userModel({ email, username, password: hash, bio, profileImage
     })
     await user.save();
+    // 
     const token = jwt.sign(
         {   id:user._id     },process.env.JWT_SECRET,
         {expiresIn:"1d"})
 
     res.cookie("token",token)
-
+    // Message and user detail if if every thing going right
     res.status(201).json({
         message:"User Registered successfully",
         user:{
@@ -40,8 +44,9 @@ async function registerController(req, res)  {
 }
 
 async function  loginControler(req,res) {
+    // import email or username form body
     const {username, email, password } =req.body
-
+    // find out by email or username
     const user = await userModel.findOne({
         $or:[
             {username:username},
@@ -49,7 +54,7 @@ async function  loginControler(req,res) {
         ]})
 
     // const hash = crypto.createHash("sha256").update(password).digest('hex')
-
+    // c
     const isPasswordValid = await bcrypt.compare(password,user.password)
 
     if (!isPasswordValid) {

@@ -8,7 +8,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("./public"))
 
-
+// create Notes
 app.post("/api/notes", async (req, res) => {
   try {
     const {title, discription } = req.body
@@ -27,6 +27,7 @@ app.post("/api/notes", async (req, res) => {
   }
 })
 
+// 
 app.get("/api/notes", async(req,res)=>{
     const notes = await notesModel.find()
     res.status(200).json({
