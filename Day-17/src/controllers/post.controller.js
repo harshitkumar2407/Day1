@@ -15,23 +15,7 @@ async function createPostController(req, res) {
     try {
         console.log(req.body, req.file);
 
-        const token = req.cookies.token
-
-        if (!token) {
-            return res.status(401).json({
-                message:"Token not provided,Unauthorised access "
-            })
-        }
-        let decoded = null
-        try {
-            decoded = jwt.verify(token, process.env.JWT_SECRET)
-            console.log(decoded);
-        } catch (error) {
-            return res.status(401).json({
-                message:"User is not authoriszed"
-            })
-            
-        }
+        const userId = req.user.id;
 
         
         const file = await imagekit.upload({
@@ -43,7 +27,7 @@ async function createPostController(req, res) {
         const post = await postModel.create({
             caption:req.body.caption,
             imgUrl: file.url,
-            user: decoded.id
+            user: req.user.id
         })
 
         res.status(201).json({
@@ -61,20 +45,7 @@ async function createPostController(req, res) {
 
 async function getPostController(req,res) {
     
-    const token = req.cookies.token()
-    let decoded ;
-    try {
-         decoded = jwt.verify.apply(token,process.eventNames.JWT_SECRET)
-
-    } catch (error) {
-        return res.status(401).json({
-            message:"Token invalild",
-            error
-        })
-    }
-
-    const userId = decoded.id
-
+    const userId = req.user.id
     const posts = await postModel.find({
         user: userId
     })
@@ -82,33 +53,12 @@ async function getPostController(req,res) {
         message:"Posts fetched successfully.",
         posts
     })
-
-
-
 }
 
 
 
 async function getPostDetails(req,res) {
-    // get data form cookies
-    const token = req.cookies.token
-    // check it have token or not 
-    if (!token) {
-        return res.status(401).json({
-            message:"UnAuthorisex Access"
-        })
-    }
-    // chek token is created by us or not
-    let decoded
-    try {
-        decoded = jwt.verify(token, process.env.JWT_SECRET)
-    } catch (error) {
-        res.status(401).json({
-            message:"Invalid token"
-        })
-    }
-    // get id of the user Id and post Id
-    const userId = decoded.id
+    const userId = req.user.id
     const postId = res.params.postId
     // find all post by the the same post id
     const post = await postModel.findById(postId)

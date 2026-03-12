@@ -26,6 +26,7 @@ app.post("/api/notes", async (req, res) => {
     })
   }
 })
+ 
 
 // 
 app.get("/api/notes", async(req,res)=>{

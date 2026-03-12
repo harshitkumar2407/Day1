@@ -43,7 +43,7 @@ async function registerController(req, res)  {
         }})
 }
 
-async function  loginControler(req,res) {
+async function  loginController(req,res) {
     // import email or username form body
     const {username, email, password } =req.body
     // find out by email or username
@@ -84,5 +84,5 @@ async function  loginControler(req,res) {
 
 module.exports ={
     registerController,
-    loginControler
+    loginController
 }
