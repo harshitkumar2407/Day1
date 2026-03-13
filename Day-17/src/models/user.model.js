@@ -20,15 +20,7 @@ const userSchema = new mongoose.Schema({
     profileImage:{
         type:String,
         default:"https://i.pinimg.com/736x/82/85/96/828596ef925a10e8c1a76d3a3be1d3e5.jpg"
-    },
-    followers: [{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"users"
-    }],
-    following: [{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"users"
-    }]
+    }
 })
 
 const userModel = mongoose.model("users",userSchema)
