@@ -22,7 +22,7 @@ async function registerController(req, res)  {
     }
     // const hash = crypto.createHash("sha256").update(password).digest("hex")
     const hash = await bcrypt.hash(password,10)
-    // send to data base if every thisg is correct
+    // send to data base if every thing is correct
     const user = new userModel({ email, username, password: hash, bio, profileImage
     })
     await user.save();

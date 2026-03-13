@@ -2,6 +2,7 @@ const postModel = require("../models/post.model")
 const ImageKit = require("imagekit")
 const jwt = require("jsonwebtoken")
 const cookies = require("cookie-parser")
+const likeModel = require("../models/like.model")
 
 
 const imagekit = new ImageKit({
@@ -83,8 +84,31 @@ async function getPostDetails(req,res) {
 
 }
 
+async function likePostController(req,res) {
+    const username = req.user.username
+    const postId = req.params.postid
+    
+    const post = await postModel.findOne({postId})
+
+    if(!post){
+        return res.status(404).josn({
+            message:"This post does not exist"
+        })
+    }
+
+    const like = await likeModel.create({
+        post:postId,
+        user:username
+    })
+    return res.status(200).json({
+        message:"post is liked successfully",like
+    })
+}
+
+
 module.exports ={
     createPostController,
     getPostController,
-    getPostDetails
+    getPostDetails,
+    likePostController
 }
