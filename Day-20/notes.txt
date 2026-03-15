@@ -1,0 +1,19 @@
+=> UI
+    => Ui dikhana user ko or navigate karna
+
+
+
+=> Hook
+    => manage kerna State and Api layer ko
+
+
+=> State
+    => State manage kerna
+        => loading
+        => user
+        => post list
+        => error
+
+=> Api
+    => Backend s communicate
+    => 
