@@ -2,6 +2,7 @@ const userModel = require("../models/user.model")
 const crypto = require("crypto")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const { profile } = require("console")
 
 
 async function registerController(req, res)  {
@@ -53,6 +54,11 @@ async function  loginController(req,res) {
             {email:email}
         ]})
 
+    // if (!user) {
+    //     return res.status(404).json({
+    //         message:"user not found"
+    //     })
+    // }
     // const hash = crypto.createHash("sha256").update(password).digest('hex')
     // c
     const isPasswordValid = await bcrypt.compare(password,user.password)
@@ -82,7 +88,24 @@ async function  loginController(req,res) {
     })
 }
 
+async function getMeController(req, res) {
+    const userId = req.user.id
+
+    const user = await userModel.findById(userId)
+
+    res.status(200).json({
+        user:{
+            username:user.username,
+            email:user.email,
+            bio:user.bio,
+            profile:user.profileImage
+        }
+    })
+}
+
+
 module.exports ={
     registerController,
-    loginController
+    loginController,
+    getMeController
 }
