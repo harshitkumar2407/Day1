@@ -1,8 +1,20 @@
-import React from 'react'
-import {Link} from 'react-router'
+import React, { useState } from 'react'
+import {Link, useNavigate} from 'react-router'
+import { useAuth } from '../hooks/useAuth';
 
-const Register = () => {const handleSubmit = (e) =>{
+const Register = () => {
+    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const navigate = useNavigate()
+    const {user, loading, handleRegister } = useAuth()
+    
+    const handleSubmit = async (e) =>{
         e.preventDefault()
+        
+        await handleRegister(username, email, password)
+        navigate('/')
+        
 
     }
   return (
@@ -10,9 +22,24 @@ const Register = () => {const handleSubmit = (e) =>{
         <div className="form-container">
             <h1>Register</h1>
             <form onSubmit={handleSubmit}>
-                <input type="text" name="username" id="username" placeholder='enter your Username' />
-                <input type="email" name="email" id="email" placeholder='Enter  email Address' />
-                <input type="password" name="password" id="password" placeholder='password' />
+                <input type="text" 
+                onInput={(e)=>setUsername(e.target.value)}
+                name="username" 
+                id="username" 
+                placeholder='enter your Username' />
+
+                <input 
+                    onInput={(e) =>{setEmail(e.target.value)}}
+                    type="email" 
+                    name="email" 
+                    id="email" 
+                    placeholder='Enter  email Address' />
+
+                <input
+                    onInput={(e) =>{setPassword(e.target.value)}}
+                    type="password" 
+                    name="password" id="password" 
+                    placeholder='password' />
                 <button className='button primary-button'>Register</button>
             </form>
             <p>If you have an account ? <Link to={"/Login"}> Login </Link>.</p>

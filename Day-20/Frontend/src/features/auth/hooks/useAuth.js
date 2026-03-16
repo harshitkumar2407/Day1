@@ -8,10 +8,16 @@ export const useAuth = () =>{
     
     const {user, setUser, loading, setLoading} = context
 
+    const currentUsername = user?.username
+    const currentEmail = user?.email
+    const currentBio = user?.bio
+
     const handleLogin = async(username, password) =>{
         setLoading(true)
         const response = await login(username , password)
         setUser(response.user)
+        console.log(response.user);
+        
         setLoading(false)
     }
 
@@ -21,16 +27,9 @@ export const useAuth = () =>{
         setUser(response.user)
         setLoading(false)
     }
- 
-    const handleGetMe = async(username,email, password) =>{
-        setLoading(true)
-        const response = await getMe(username,email , password)
 
-        setUser(response.user)
-        setLoading(false)
-    }
 
     return {
-        user, loading, handleLogin, handleGetMe, handleRegister
+        user, loading, handleLogin, handleRegister ,currentBio, currentUsername, currentEmail
     }
 }

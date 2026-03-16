@@ -27,7 +27,7 @@ authRouter.post("/login",loginController )
 *  @description Get the currently  logged in user's information
 *  @access Public
 */
-authRouter.get("/get-me",identifyUser,getMeController)
+authRouter.get("/getme",identifyUser,getMeController)
 
 
 
