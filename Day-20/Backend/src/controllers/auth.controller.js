@@ -6,17 +6,16 @@ const { profile } = require("console")
 
 
 async function registerController(req, res)  {
-    // take input data form the the body
+    
     const { email, username, password, bio, profileImage} = req.body
 
-    // check user is already exist by this user.name or email
     const isUserAlreadyExists = await userModel.findOne({
         $or:[{ username }, { email }]
     })
     //  if yes we can't allow to create the user with the same name Notification
     if (isUserAlreadyExists) {
         const field = isUserAlreadyExists.email === email ? "Email" : "Username";
-    
+
         return res.status(409).json({
             message: `User already exists by ${field}`
         });
@@ -27,7 +26,7 @@ async function registerController(req, res)  {
     const user = new userModel({ email, username, password: hash, bio, profileImage
     })
     await user.save();
-    // 
+    
     const token = jwt.sign(
         {   id:user._id     },process.env.JWT_SECRET,
         {expiresIn:"1d"})
@@ -54,11 +53,11 @@ async function  loginController(req,res) {
             {email:email}
         ]})
 
-    // if (!user) {
-    //     return res.status(404).json({
-    //         message:"user not found"
-    //     })
-    // }
+    if (!user) {
+        return res.status(404).json({
+            message:"user not found"
+        })
+    }
     // const hash = crypto.createHash("sha256").update(password).digest('hex')
     // c
     const isPasswordValid = await bcrypt.compare(password,user.password)

@@ -8,7 +8,7 @@ const Register = () => {
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
     const {user, loading, handleRegister } = useAuth()
-    
+
     const handleSubmit = async (e) =>{
         e.preventDefault()
         
