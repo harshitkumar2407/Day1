@@ -6,15 +6,21 @@ async function identifyUser(req,res,next) {
     if (!token) {
         return res.status(401).json({
             message:"UnAuthorise Access"
-        })}
+        })
+    }
 
 
     let decoded = null
     try {
         decoded = jwt.verify(token, process.env.JWT_SECRET)
     } catch (error) {
-        res.status(401).json({
+        return res.status(401).json({
             message:"Invalid token"
+        })
+    }
+    if (!decoded) {
+        return res.status(401).json({
+            message: "Invalid token"
         })
     }
     req.user = decoded

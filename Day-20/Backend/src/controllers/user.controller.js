@@ -117,7 +117,7 @@ async function acceptRequest (req, res) {
     request.status = "accepted"
     await request.save()
 
-    res.status(200).josn({
+    res.status(200).json({
         message:"Follow requested accepted ",
         request
     })

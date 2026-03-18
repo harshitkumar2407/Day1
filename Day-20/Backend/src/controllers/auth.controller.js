@@ -28,7 +28,7 @@ async function registerController(req, res)  {
     await user.save();
     
     const token = jwt.sign(
-        {   id:user._id     },process.env.JWT_SECRET,
+        { id:user._id, username:user.username },process.env.JWT_SECRET,
         {expiresIn:"1d"})
 
     res.cookie("token",token)
@@ -51,7 +51,7 @@ async function  loginController(req,res) {
         $or:[
             {username:username},
             {email:email}
-        ]})
+        ]}).select("+password")
 
     if (!user) {
         return res.status(404).json({
@@ -97,7 +97,7 @@ async function getMeController(req, res) {
             username:user.username,
             email:user.email,
             bio:user.bio,
-            profile:user.profileImage
+            profileImage:user.profileImage
         }
     })
 }

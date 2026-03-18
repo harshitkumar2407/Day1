@@ -12,7 +12,7 @@ const upload = multer({ storage: multer.memoryStorage() })
 // POST /api/posts/
 // req.body = {caption, image-file}
 // 
-postRouter.post("/",upload.single("image"),identifyUser,createPostController)
+postRouter.post("/",identifyUser,upload.single("image"),createPostController)
 
 /**
 *  @route GET /api/posts/ []
@@ -38,7 +38,7 @@ postRouter.get("/details/:postId",identifyUser,getPostDetails)
 *  @description Like the post 
 *  @access Private
 */
-postRouter.post("/like/:postid",identifyUser,likePostController)
+postRouter.post("/like/:postId",identifyUser,likePostController)
 
 /**
 *  @route GET /api/post/feed

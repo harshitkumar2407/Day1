@@ -12,7 +12,8 @@ export async function login(username, password) {
     const response = await api.post('/login',{
         username,password
     })
-
+    console.log('login 1✅');
+    
     return response.data
 }
 

@@ -5,7 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 import Loader from './Loader'
 
 const Login = () => {
-    const {user, loading, handleLogin} =useAuth()
+    const {loading, handleLogin} =useAuth()
     const [username, setUsername] = useState("rishu")
     const [password, setPassword] = useState("password")
     
@@ -22,7 +22,7 @@ const Login = () => {
         e.preventDefault()
         
         await handleLogin(username,password)
-        console.log("user LoggedIn");
+        console.log("user LoggedIn ");
         navigate("/")
 
     }
