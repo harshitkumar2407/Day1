@@ -1,7 +1,38 @@
 .FeedPage{
     display: flex;
-    justify-content: center;
-    align-items:flex-start;
+    // justify-content: flex-start;
+    align-items: flex-start;
+
+    .left-content-area{
+        width: 250px;
+        // height: 100vh;
+        border: solid whitesmoke 2px;
+        // background-color: #ee1313;
+        position: relative;
+        top: 0;
+        margin-top: 1rem;
+
+        .follower-container{
+            height: inherit;
+            border: #636262 solid 2px;
+            margin: 1rem;
+            border-radius: 4px;
+            padding: 5px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+            
+            
+            .img-wrapper{
+                width: 25px;
+                height: 25px;
+                border-radius: 20px;
+                overflow: hidden;
+            }
+        }
+    }
 
     .feed{
         max-width: 300px;
@@ -19,6 +50,7 @@
             background-color: #312626;
             padding-block: 0.5rem;
             padding-inline: 0.5rem;
+            margin-top: 1rem;
 
             .icons{
                 display: flex;

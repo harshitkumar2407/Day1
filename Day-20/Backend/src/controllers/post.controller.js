@@ -79,7 +79,8 @@ async function getPostDetails(req,res) {
     const userId = req.user.id
     const postId = req.params.postId
     // find all post by the the same post id
-    const post = await postModel.findById(postId)
+    // populate help us to find the detial of the user tooo
+    const post = await postModel.findById(postId).populate("user");
     // check if there is any post or not if not show errot
     if (!post) {
         return res.status(404).json({
@@ -87,13 +88,13 @@ async function getPostDetails(req,res) {
         })
     }
     // 
-    const isValidUser = post.user.toString() === userId
+    // const isValidUser = post.user.toString() === userId;
 
-    if (!isValidUser) {
-        return res.status(401).json({
-            message:"Forbidden Content."
-        })
-    }
+    // if (!isValidUser) {
+    //     return res.status(401).json({
+    //         message:"Forbidden Content."
+    //     })
+    // }
     return res.status(200).json({
         message:"Post fetched successfully.",
         post
@@ -102,80 +103,66 @@ async function getPostDetails(req,res) {
 }
 
 async function likePostController(req,res) {
-    const {postId} = req.params
+    const postId = req.params.postId
     const userId = req.user.id
 
-    if (!userId) {
-        return res.status(401).json({ message: "User is not authorized" })
-    }
-
-    if (!mongoose.Types.ObjectId.isValid(postId)) {
-        return res.status(400).json({
-            message: "Invalid post ID"
-        })
-    }
-
     const post = await postModel.findById(postId)
-    if(!post){
-        return res.status(404).json({
-            message:"Post not found"
-        })
-    }
 
-    let username = req.user?.username
-    if (!username) {
-        const user = await userModel.findById(userId).select("username")
-        username = user?.username
-    }
-    if (!username) {
-        return res.status(400).json({ message: "Username not available" })
-    }
-
-    try {
-        const like = await likeModel.create({
-            post:postId,
-            user:userId
-        })
-        return res.status(200).json({
-            message:"post is liked successfully",
-            like
-        })
-    } catch (error) {
-        if (error?.code === 11000) {
-            return res.status(409).json({
-                message: "Post already liked"
-            })
-        }
-        
-        return res.status(500).json({
-            message: "Failed to like post",
-            error: error?.message
-        })
-    }
+    const like = await likeModel.create({
+        post:postId,
+        user:userId
+    })
+    
+    res.status(200).json({
+        message: "Post liked successfully.",
+        like
+    })
+    
 }
 
-async function getFeedController(req,res) {
-    
-    const user = req.user
-    const posts = await Promise.all((await postModel
-                        .find().populate({ path: "user", select: "-password" }))
-                        .map(async (post) =>{
-                            const isLiked = await likeModel.findOne({
-                                user:user.username,
-                                post:post._id
-                            })
-                             post.isLiked = isLiked
-                            
-                             return
-                        }))
+async function unlikePostController(req,res) {
+    const postId = req.params.postId
+    const userId = req.user.id
 
     const isLiked = await likeModel.findOne({
-    user: user.id,
-    post: posts._id
+        post:postId,
+        user:userId
     })
+    if (!isLiked) {
+        return res.status(400).json({
+            message:"Post did't like"
+        })
+    }
+
+    await likeModel.findOneAndDelete({ _id: isLiked._id})
+
+    return res.status(200).json({
+        message:"Post unliked Successfully"
+    })
+}
+
+
+
+async function getFeedController(req, res) {
+
+    const user = req.user
+
+    const posts = await Promise.all((await postModel.find({}).sort({_id:-1}).populate("user").lean())
+        .map(async (post) => {
+            const isLiked = await likeModel.findOne({
+                user: user.id,
+                post: post._id
+            })
+
+            post.isLiked = Boolean(isLiked)
+
+            return post
+        }))
+
+
 
     res.status(200).json({
-        message:"posts fetched successfully.",
+        message: "posts fetched successfully.",
         posts
     })
 }
@@ -186,5 +173,6 @@ module.exports ={
     getPostController,
     getPostDetails,
     likePostController,
-    getFeedController
+    getFeedController,
+    unlikePostController
 }

@@ -4,13 +4,17 @@ import styled from 'styled-components';
 const Loader = () => {
   return (
     <StyledWrapper>
-      <div className="loading">
+      <main>
+        <div className="loading">
+        <span />
+        <span />
         <span />
         <span />
         <span />
         <span />
         <span />
       </div>
+      </main>
     </StyledWrapper>
   );
 }

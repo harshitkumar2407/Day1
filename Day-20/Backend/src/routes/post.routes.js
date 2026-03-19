@@ -1,6 +1,6 @@
 const express = require("express")
 const postRouter =  express.Router()
-const { createPostController, getPostController, getPostDetails, likePostController, getFeedController } = require("../controllers/post.controller")
+const { createPostController, getPostController, getPostDetails, likePostController, getFeedController,unlikePostController } = require("../controllers/post.controller")
 const identifyUser = require("../middleware/auth.middleware")
 
 // for uploading image in post we will use multer package to handle multipart/form-data which is used for uploading files. We will use memory storage to store the uploaded file in memory as a buffer, which can be processed further before saving it to the database or cloud storage.
@@ -39,10 +39,11 @@ postRouter.get("/details/:postId",identifyUser,getPostDetails)
 *  @access Private
 */
 postRouter.post("/like/:postId",identifyUser,likePostController)
+postRouter.post("/unlike/:postId",identifyUser,unlikePostController)
 
 /**
 *  @route GET /api/post/feed
-*  @name 
+*  @name Get All post
 *  @description get all the post created in the D
 *  @access Public
 */

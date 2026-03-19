@@ -1,0 +1,20 @@
+.post-image-label{
+    background-color: #eaeaea;
+    color: #252525;
+    padding-inline: 1.5rem;
+    padding-block: .5rem;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+.like{
+    // background-color: red;
+    fill: red;
+}
+.unlike{
+    // color: green;
+    fill: green;
+}
+
+button:active{
+    scale: 1.5;
+}

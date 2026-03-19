@@ -15,5 +15,7 @@
             transform: scale(0.9);
         }
     }
-
+    &:hover{
+        scale: 1.05;
+    }
 }
